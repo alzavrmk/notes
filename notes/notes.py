@@ -19,9 +19,7 @@ class Notes:
         global id_note
         id_note = id_note + 1
         dt_note = date.today()
-        # dt_note = datetime.strftime(date.today(), )
         note = Note(id_note, dt_note,  title_note, body_note)
-        # note = Note(id_note, title_note, body_note)
         self.__list_notes.append(note)
 
     def __str__(self):
@@ -123,6 +121,7 @@ class Notes:
                 f.write("\n")
 
     def read_json(self):
+        self.__list_notes.clear()
         objList = []
         with open("f2.json", "r") as f:
             for str_json in f:
@@ -142,7 +141,7 @@ class NoteEncoder(json.JSONEncoder):
         if isinstance(n, Note):
             dict = {
                 "id_note": n.id,
-                "dt_create": n.date.strftime("%d %b %y"),
+                "dt_create": n.date.strftime("%Y-%m-%d"),
                 "title_note": n.title,
                 "body_note": n.body
             }
