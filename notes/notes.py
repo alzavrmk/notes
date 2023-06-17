@@ -1,5 +1,5 @@
 from note.note import *
-from notes.datatable import *
+# from notes.datatable import *
 from datetime import date, datetime
 import json
 
@@ -33,12 +33,17 @@ class Notes:
     def del_note(self, id_notes):
         try:
             id_n = int(id_notes)
+            count = 0
+            count1 = 0
             for i in self.__list_notes:
+                count1 += 1
                 if i.id == id_n:
                     self.__list_notes.remove(i)
                     print(f"Заметка под номером {id_notes} удалена!")
                 else:
-                    print("Нет заявки с таким id")
+                    count += 1
+            if count == count1:
+                print(f"Заметки с id = {id_n} не существует!")
         except ValueError:
             print("Некорректный id!")
 
@@ -67,7 +72,7 @@ class Notes:
                         elif n == "2":
                             print("Введите новое содержание заметки")
                             i.body = input()
-                            print(f"Содержание заметки под номером{id_notes} "
+                            print(f"Содержание заметки под номером {id_notes} "
                                   f"изменено!")
                             flag = False
                         else:
