@@ -116,47 +116,34 @@ class Notes:
                 print("Дата введена неверно!")
         else:
             print("Неверный ввод!")
-
     def save_notes(self):
-        with open("data_file.json", "w") as write_file:
-            json.dump(self, write_file)
+        with open("f2.json", "a") as f:
+            for note in self.__list_notes:
+                f.write(json.dumps(note, cls=NoteEncoder))
+                f.write("\n")
 
-    # def save_json(self):
-    #     with open("data.json", "a") as fh:
-    #         # for i in self.__list_notes:
-    #         json.dump([i.__dict__ for i in self.__list_notes], fh,
-    #                   cls=NoteEncoder, indent=2)
-    # def read_json(self):
-    #     with open("data.json", "r") as fh:
-    #         for i in self.__list_notes:
-    #             i = json.load(fh, object_hook=noteDecoder)
+    def read_json(self):
+        objList = []
+        with open("f2.json", "r") as f:
+            for str_json in f:
+                obj_dict = json.loads(str_json)
+                objList.append(obj_dict)
 
-# def noteDecoder(obj):
-#     return Note(obj['id'], obj['title_note'], obj['body_note'])
-
-
-
-
-
+        for obj in objList:
+            note = Note(obj["id_note"],
+                        obj["dt_create"],
+                        obj["title_note"],
+                        obj["body_note"])
+            self.__list_notes.append(note)
 
 
-# d = datetime(2012, 1, 14)
-#
-# print(type(d.year))  # 2012
-# print(d.day)  # 14
-# print(d.month)  # 12
-# s = ["15", 2, 1945]
-# if len(s[0]) == 2 and s[0][0] == "0":
-#     day = int(s[0][1])
-# else:
-#     day = int(s[0])
-# print(day)
-# month = int(s[1])
-# year = int(s[2])
-# d = datetime(year, month, day)
-# print(d)
-# l = Notes()
-# l.add_note()
-# print()
-# print(date.today())
-# print(date(2023, 8, 15))
+class NoteEncoder(json.JSONEncoder):
+    def default(self, n):
+        if isinstance(n, Note):
+            dict = {
+                "id_note": n.id,
+                "dt_create": n.date.strftime("%d %b %y"),
+                "title_note": n.title,
+                "body_note": n.body
+            }
+            return dict
