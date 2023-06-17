@@ -62,9 +62,4 @@ class Note:
         self.verify_body_note(body_note)
         self.__body_note = body_note
 
-    def __repr__(self):
-        return f'Note(id ="{self.__id_note}", ' \
-               f'дата создания ={self.__dt_create}, ' \
-               f'заголовок ={self.__title_note})' \
-               f'содержание ={self.__body_note})'
 
